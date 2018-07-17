@@ -39,6 +39,14 @@ https://github.com/michiwend/goefa
 - http://content.tfl.gov.uk/journey-planner-api-documentation.pdf
  
 ### How to run
+    
+
+    To run the source code, the following software is required:
+
+    Python 3.5.1 (or higher)
+    Additional packages to be installed via pip are specified in requirements.txt
+    
+    
 #### Configuration
 To import departures from an efa endpoint, configure the following parameters in the config.ini:
 
@@ -81,7 +89,7 @@ To parse the dm_response files retrieved via the crawler and generate GTFS from 
     e2g.import_from_dir('examples/efa_files_cache', networks_to_ignore)
     e2g.export_gtfs('out/examples/gtfs.zip', 'out/gtfs')
     
-### Progress
+### Progress 
 
 From: https://developers.google.com/transit/gtfs/reference
 
