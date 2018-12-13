@@ -356,10 +356,10 @@ class Converter():
             current_stop_time,
             current_stop_time,
             stop_id,
-            #'', # no headsign
-            self.current_file[-20:], # insert filename as headsign for debugging purposes
+            '', # no headsign
             2 if is_on_demand_trip else 0, 
-            2 if is_on_demand_trip else 0            
+            2 if is_on_demand_trip else 0,
+            self.current_file[-20:], # insert filename as headsign for debugging purposes            
         ]
     
     def route_id_from_trip_id(self, trip_id):
@@ -396,17 +396,17 @@ class Converter():
             
             arrDateTime = stop.arrival_date_time
             depDateTime = stop.departure_date_time
-            #trip_id,stop_sequence,arrival_time,departure_time,stop_id,stop_headsign,pickup_type,drop_off_type
+            #trip_id,stop_sequence,arrival_time,departure_time,stop_id,stop_headsign,pickup_type,drop_off_type,source
             row = [
                 trip_id,
                 stop_sequence,
                 util.convert_to_gtfs_time(*(arrDateTime.split(' ')[1].split(':')), start_hour_int)+ ':00',
                 util.convert_to_gtfs_time(*(depDateTime.split(' ')[1].split(':')), start_hour_int)+ ':00',
                 stop_stateless_id,
-                #'', # no headsign
-                self.current_file[-20:], # insert filename as headsign for debugging purposes
+                '', # no headsign
                 2 if is_on_demand_trip else 0,
-                2 if is_on_demand_trip else 0
+                2 if is_on_demand_trip else 0,
+                self.current_file[-20:], # insert filename for debugging purposes
                 ]
             out_stop_times.append(row)
             

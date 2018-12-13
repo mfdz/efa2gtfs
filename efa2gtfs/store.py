@@ -37,9 +37,8 @@ class GtfsStore():
     calendar_dates_fields = 'date,service_id,exception_type'
     route_fields = 'route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_color,route_text_color'
     trip_fields = 'trip_id,route_id,service_id,trip_headsign' 
-    #stop_fields = 'stop_id,stop_name,stop_desc,stop_lat,stop_lon,stop_url,location_type,parent_station'
     stop_fields = 'stop_id,stop_name,platform_code,stop_lat,stop_lon,stop_source'
-    stop_time_fields = 'trip_id,stop_sequence,arrival_time,departure_time,stop_id,stop_time_source,pickup_type,drop_off_type'
+    stop_time_fields = 'trip_id,stop_sequence,arrival_time,departure_time,stop_id,stop_headsign,pickup_type,drop_off_type,stop_time_source'
     
    
     def init_static_content(self):
