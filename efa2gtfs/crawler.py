@@ -157,11 +157,15 @@ class EfaCrawler():
                     
                     last_dep_datetime = self._get_max_dep_datetime(response)
                     # if results past intended range were returned or no new departures returned for this stop, leave
-                    if last_dep_datetime is None or last_dep_datetime > end_datetime or former_last_dep_datetime == last_dep_datetime:
+                    if last_dep_datetime is not None and last_dep_datetime > end_datetime:
+                        break
+                    elif (last_dep_datetime is None or former_last_dep_datetime == last_dep_datetime):
+                        # FIXME if efa only returns next 24h and this day is not served, we should
+                        # increment by 24h
                         break
                     else:
                         # otherwise increment date/time and request again
-                        (itd_date, idt_time) = self._as_idt_date_time(last_dep_datetime)
+                        (itd_date, itd_time) = self._as_idt_date_time(last_dep_datetime)
                         counter += 1
                         former_last_dep_datetime = last_dep_datetime
                         
