@@ -14,7 +14,7 @@ Their product known as "Elektronische Fahrplanauskunft" (EFA) provides an XML/JS
 https://de.wikipedia.org/wiki/Elektronische_Fahrplanauskunft
 https://www.mentzdv.de
 
-GTFS is the open General Transit Feed Specification, commonly used by google maps:
+GTFS is the open General Transit Feed Specification, commonly used by Google Maps:
 https://github.com/google/transitfeed/wiki
 
 Please feel free to contribute, accepting pull requests
@@ -57,24 +57,24 @@ To import departures from an efa endpoint, configure the following parameters in
 	SkipUntilStop: 
 
 
-| Parameter       | Description       | Example         |
-| --------------- |:-----------------|:---------------|
-| BaseURL       | URL of the efa endpoint  | http://www.efa-bw.de/nvbw/ |
-| SleepInterval | seconds to wait before performing another request to the efa server| 0.1|
-| StopsFile     | csv file with stop_ids in first column | examples/stops.txt |
-| SkipUntilStop | First stop that should be requested, all stops before this are skipped |7023124 |
+| Parameter     | Description                                                            | Example                    |
+|---------------|:-----------------------------------------------------------------------|:---------------------------|
+| BaseURL       | URL of the efa endpoint                                                | http://www.efa-bw.de/nvbw/ |
+| SleepInterval | seconds to wait before performing another request to the efa server    | 0.1                        |
+| StopsFile     | csv file with stop_ids in first column                                 | examples/stops.txt         |
+| SkipUntilStop | First stop that should be requested, all stops before this are skipped | 7023124                    |
 
 #### Crawling and caching efa departures
 The download can be started as follows: 
+```python
+import datetime
+from efa2gtfs.crawler import EfaCrawler
 
-    import datetime
-    from efa2gtfs.crawler import EfaCrawler
-     
-    efa_crawler = efa2gtfs.crawler.EfaCrawler()
-    start = datetime.datetime(2018,7, 13, 1, 0)
-    end = datetime.datetime(2018,7, 16, 1, 0)
-    efa_crawler.load_trips_between(start, end, './out/cached_efa_responses')
-
+efa_crawler = EfaCrawler()
+start = datetime.datetime(2018, 7, 13, 1, 0)
+end = datetime.datetime(2018, 7, 16, 1, 0)
+efa_crawler.load_trips_between(start, end, './out/cached_efa_responses')
+```
 As start/endtime, a date/time range from friday (begin of service) to sunday (end of service) should be specified.
 
 Note: depending on the number of stops, the total download size might become quite large. E.g. Baden-Württemberg takes ~150.000 files with a total size of 110GB, total import duration.  
@@ -93,27 +93,27 @@ To parse the dm_response files retrieved via the crawler and generate GTFS from 
 
 From: https://developers.google.com/transit/gtfs/reference
 
-| Filename        | Required          | Status          |
-| --------------- |:-----------------:| ---------------:|
-| agency.txt | y | Incomplete - Manual editing afterwards required |
-| stops.txt | y | Complete |
-| routes.txt | y | Complete |
-| trips.txt | y | Complete |
-| stop_times.txt | y | Complete |
-| calendar.txt | y | Static - Rudimentary support |
-| calendar_dates.txt | y | Static - Rudimentary support |
-| fare_attributes.txt | n |  |
-| fare_rules.txt | n |  |
-| shapes.txt | n |  |
-| frequencies.txt | n |  |
-| transfers.txt | n |  |
-| feed_info.txt | y | Static - Work in progress|
+| Filename            | Required |                                          Status |
+|---------------------|:--------:|------------------------------------------------:|
+| agency.txt          |    y     | Incomplete - Manual editing afterwards required |
+| stops.txt           |    y     |                                        Complete |
+| routes.txt          |    y     |                                        Complete |
+| trips.txt           |    y     |                                        Complete |
+| stop_times.txt      |    y     |                                        Complete |
+| calendar.txt        |    y     |                    Static - Rudimentary support |
+| calendar_dates.txt  |    y     |                    Static - Rudimentary support |
+| fare_attributes.txt |    n     |                                                 |
+| fare_rules.txt      |    n     |                                                 |
+| shapes.txt          |    n     |                                                 |
+| frequencies.txt     |    n     |                                                 |
+| transfers.txt       |    n     |                                                 |
+| feed_info.txt       |    y     |                       Static - Work in progress |
 
 ### Known issues
 #### Efa data quality issues
 For efa-bw, we encountered various data quality issues (e.g., flipped lat/lon for stop coordinates, wrong or not provided stop locations or ids, non-chronological stop ordering in stop sequences). To discover such issues, we recommend doing some quality checks using google's transitfeed/veedvalidator. To handle such data issues, we introduced various patching mechanisms, which can be configured. 
 #### calender and calender_dates
-Currently, efa2gtfs only differentiates between monday-friday, saturday and sunday trips, i.e., holydays or pre-holiday schedules are not taken into account yet.
+Currently, efa2gtfs only differentiates between monday-friday, saturday and sunday trips, i.e., holidays or pre-holiday schedules are not taken into account yet.
 #### start/end of service day
 Currently, efa2gtfs assumes that trips starting between 0am and 4am belong to the preceding service day, which will not be correct for every route.
 #### Feed info
